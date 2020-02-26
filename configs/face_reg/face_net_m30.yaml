@@ -1,0 +1,33 @@
+DTYPE: "float16"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedFaceNet"
+  WEIGHT: "/data/liyue/.torch/model/IR_SE_101.pth"
+  USE_SYNCBN: False
+  BACKBONE:
+    CONV_BODY: "FACE-NET-IR-SE-101"
+    BACKBONE_OUT_CHANNELS: 512
+  FACE_HEADS:
+    FACE_HEAD: "ArcFace"
+    CLASS_NUMS:  71051
+#    CLASS_NUMS: 86875
+
+DATASETS:
+  TRAIN: ("M30_face_train",)
+  TEST: ("hl_part1_4_align",) #
+  TEST_PATH: "/data2/fr_test/hl_part1_4_align"
+#  dataset size:  3923138 / 86875  86,876 ids/3,923,399
+#  dataset size:  2829773 / 93962  93,979 ids/2,830,146
+INPUT:
+  SIZE_TRAIN: (112,112)
+DATALOADER:
+  SIZE_DIVISIBILITY: 0
+SOLVER:
+  # Assume 4 gpus
+  BASE_LR: 0.1
+  CHECKPOINT_PERIOD: 4448
+  WEIGHT_DECAY: 0.0001
+  STEPS: (41811,71676,95568)
+  MAX_ITER: 157696
+  IMS_PER_BATCH: 960
+  DIVS_NUMS_PER_BATCH: 2
+#  WARMUP_METHOD: "constant"

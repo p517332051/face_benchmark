@@ -1,0 +1,32 @@
+#DTYPE: "float16"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedFaceNet"
+  WEIGHT: "/data/hongwei/.torch/models/IR_SE_101.pth"
+  USE_SYNCBN: False
+  BACKBONE:
+    CONV_BODY: "FACE-NET-IR-SE-101"
+    BACKBONE_OUT_CHANNELS: 512
+  FACE_HEADS:
+    FACE_HEAD: "ArcFace"
+    CLASS_NUMS: 180837
+#    CLASS_NUMS: 86875
+
+DATASETS:
+  TRAIN: ("msra_cele_face",)
+  TEST: ("coco_2014_minival",) #
+#  dataset size:  3923138 / 86875  86,876 ids/3,923,399
+#  dataset size:  2829773 / 93962  93,979 ids/2,830,146
+INPUT:
+  SIZE_TRAIN: (112,112)
+DATALOADER:
+  SIZE_DIVISIBILITY: 0
+SOLVER:
+  # Assume 4 gpus
+  BASE_LR: 0.1
+  CHECKPOINT_PERIOD: 4448
+  WEIGHT_DECAY: 0.0001
+  STEPS: (56275,92549,120680)
+  MAX_ITER: 168822
+  IMS_PER_BATCH: 640
+  DIVS_NUMS_PER_BATCH: 1
+#  WARMUP_METHOD: "constant"

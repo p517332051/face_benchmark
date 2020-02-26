@@ -1,0 +1,36 @@
+#DTYPE: "float16"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedFaceNetTriplet"
+  WEIGHT: "/data/hongwei/.torch/model/M30_IR_SE_101.pth"
+  USE_SYNCBN: False
+  BACKBONE:
+    CONV_BODY: "FACE-NET-IR-SE-101"
+    BACKBONE_OUT_CHANNELS: 512
+  FACE_HEADS:
+    FACE_HEAD: "triplet"
+    CLASS_NUMS: 180837
+#    CLASS_NUMS: 86875
+
+DATASETS:
+#  TRAIN: ("msra_face","celebrity_face")
+  TRAIN: ("msra_cele_face_sjjy_triplet",)
+  TEST: ("coco_2014_minival",) #
+#
+#  dataset size:  3923138 / 86875  86,876 ids/3,923,399
+#  dataset size:  2829773 / 93962  93,979 ids/2,830,146
+INPUT:
+  SIZE_TRAIN: (112,112)
+DATALOADER:
+  SIZE_DIVISIBILITY: 0
+SOLVER:
+  # Assume 4 gpus
+  TRIPLET_MARGIN: 1.0
+  BASE_LR: 0.1
+  CHECKPOINT_PERIOD: 4448
+  WEIGHT_DECAY: 0.0001
+  STEPS: (6000,12000,18000)
+  MAX_ITER: 168822
+  IMS_PER_BATCH: 128
+  DIVS_NUMS_PER_BATCH: 1
+
+#  WARMUP_METHOD: "constant"

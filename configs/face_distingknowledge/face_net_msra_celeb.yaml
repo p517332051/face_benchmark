@@ -1,0 +1,35 @@
+#DTYPE: "float16" #"/data/liyue/.torch/model/IR_SE_101.pth"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedFaceNet"
+  WEIGHT: "/data2/hongwei/training_dir/face_Y2MoblieNet_Disting/BACKBONE/BACKBONE_0095000.pth"
+  TEACHERWEIGHT: "/data2/hongwei/training_dir/face_IR_101/model_0105000.pth"
+  USE_SYNCBN: False
+  BACKBONE:
+    TEACHER_CONV_BODY: "FACE-NET-IR-101"
+    STUDENT_CONV_BODY: "FACE-NET-MoblieNet"
+    BACKBONE_OUT_CHANNELS: 512
+  FACE_HEADS:
+    FACE_HEAD: "ArcFace"
+    CLASS_NUMS: 180840 #180840
+#    CLASS_NUMS: 86875
+
+DATASETS:
+  TRAIN: ("msra_cele_face",)
+  TEST: ("hl_part1_4_align",) #
+  TEST_PATH_LIST: ("/data2/fr_test/hl_part1_4_align","/data2/fr_test/menjin_align",)
+#  dataset size:  3923138 / 86875  86,876 ids/3,923,399
+#  dataset size:  2829773 / 93962  93,979 ids/2,830,146
+INPUT:
+  SIZE_TRAIN: (112,112)
+DATALOADER:
+  SIZE_DIVISIBILITY: 0
+SOLVER:
+  # Assume 4 gpus
+  BASE_LR: 0.1
+  CHECKPOINT_PERIOD: 5000
+  WEIGHT_DECAY: 0.0005
+  STEPS: (56275,72549,90000)
+  MAX_ITER: 120000
+  IMS_PER_BATCH: 400
+  DIVS_NUMS_PER_BATCH: 1
+#  WARMUP_METHOD: "constant"
